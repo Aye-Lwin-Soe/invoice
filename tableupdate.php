@@ -15,6 +15,14 @@
 
   $row = $stmt->fetchAll();
   
+
+   $sql1="SELECT * from invoice_items";
+  
+  $stmt1 = $pdo->prepare($sql1);
+  
+  $stmt1->execute();
+
+  $rows = $stmt1->fetchAll();
   ?>
 <html>
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -35,7 +43,15 @@
         </tr>
       </thead>
       <tbody>
+        <?php foreach ($rows as $key => $value) {?>
+          
         <tr>
+          <td><?php echo $value['item_name'];?></td>
+          <td><?php echo $value['item_qty'];?></td>
+          <td><?php echo $value['item_price'];?></td>
+        </tr>
+      <?php } ?>
+        <!-- <tr>
           <td>Apple</td>
           <td>5</td>
           <td>1000</td>
@@ -54,7 +70,7 @@
           <td>Grape</td>
           <td>5</td>
           <td>1000</td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   
@@ -85,8 +101,9 @@
               </tr>
             </thead>
             <tbody>
-              <?php  $j = 1; for ($i=0 ; $i <  count($row); $i++ ) { 
+              <?php  $j = 1; $subtotal = 0;for ($i=0 ; $i <  count($row); $i++ ) { 
                 $totalt = $row[$i]['itqty']*$row[$i]['itprice'];
+                $subtotal += $totalt;
               ?>
               <tr id='updateaddr<?php echo $i;?>'>
                 <td><?php echo $j;?></td>
@@ -117,12 +134,12 @@
             <tbody>
               <tr>
                 <th class="text-center">Sub Total</th>
-                <td class="text-center"><input type="number" name='sub_total' placeholder='0.00' class="form-control" id="sub_total" readonly/></td>
+                <td class="text-center"><input type="number" name='sub_total' placeholder='0.00' class="form-control" id="sub_total" readonly value="<?php echo $subtotal;?>" /></td>
               </tr>
               <tr>
                 <th class="text-center">Tax</th>
                 <td class="text-center"><div class="input-group mb-2 mb-sm-0">
-                    <input type="number" class="form-control" id="updatetax" placeholder="0" min="0" name="tax">
+                    <input type="number" class="form-control" id="updatetax" placeholder="0" min="0" name="tax" value="<?php echo $row[0]['tax'];?>">
                     
                   </div></td>
               </tr>
@@ -132,7 +149,7 @@
               </tr>
               <tr>
                 <th class="text-center">Total</th>
-                <td class="text-center"><input type="number" name='total_amount' id="total_amount" placeholder='0.00' class="form-control" readonly/></td>
+                <td class="text-center"><input type="number" name='total_amount' id="total_amount" placeholder='0.00' class="form-control" readonly value="<?php echo $row[0]['total'];?>" /></td>
               </tr>
             </tbody>
           </table>

@@ -1,3 +1,17 @@
+<?php 
+  
+  require 'db_connect.php';
+  
+  // draw out the query from the db
+  $sql="SELECT * from invoice_items";
+  
+  $stmt = $pdo->prepare($sql);
+  
+  $stmt->execute();
+
+  $row = $stmt->fetchAll();
+ 
+  ?>
 <html>
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="jquery.min.js"></script>
@@ -17,12 +31,15 @@
         </tr>
       </thead>
       <tbody>
+        <?php foreach ($row as $key => $value) {?>
+          
         <tr>
-          <td>Apple</td>
-          <td>5</td>
-          <td>1000</td>
+          <td><?php echo $value['item_name'];?></td>
+          <td><?php echo $value['item_qty'];?></td>
+          <td><?php echo $value['item_price'];?></td>
         </tr>
-        <tr>
+      <?php } ?>
+        <!-- <tr>
           <td>Orange</td>
           <td>5</td>
           <td>1000</td>
@@ -36,7 +53,8 @@
           <td>Grape</td>
           <td>5</td>
           <td>1000</td>
-        </tr>
+        </tr> -->
+
       </tbody>
     </table>
   
