@@ -1,4 +1,3 @@
-
 <html>
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="jquery.min.js"></script>
@@ -83,7 +82,7 @@
       <div class="row clearfix">
         <div class="col-md-12">
           <a id="add_row" class="btn btn-outline-dark float-left">Add Row</a>
-          <button id='delete_row' class="float-right btn btn-outline-info">Delete Row</button>
+          <a id='delete_row' class="float-right btn btn-outline-info">Delete Row</a>
         </div>
       </div>
       <div class="row clearfix" style="margin-top:20px">
@@ -122,5 +121,6 @@
         </div>
       </div>
     </form>
+
 </div>
 

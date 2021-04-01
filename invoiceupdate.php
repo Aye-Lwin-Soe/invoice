@@ -24,9 +24,6 @@
 	}else{
 		$tax = $tax1;
 	}
-	if($invoicename == '' && $total_amount == ''){
-		echo "Fill the Data";
-	}else{
 	$invoicesql = "INSERT INTO invoices (invoicename, total, tax, invoicedate) VALUES(:invoicename, :total_amount, :tax, :invoicedate)";
 
     $invoice_stmt= $pdo->prepare($invoicesql);
@@ -41,27 +38,49 @@
 		$productname = $product[$i];
 		$pricename = $price[$i];
 		$qtyname = $qty[$i];
-		if($productname == '' && $pricename == '' && $qtyname == ''){
-			echo "Fill the Data";
-		}else{
-			$invoiceitemsql= "INSERT INTO invoice_items (item_name, item_qty, item_price,invoice_id) VALUES (:productname, :qtyname, :pricename,:invoiceid)";
+		
+		$invoiceitemsql= "INSERT INTO invoice_items (item_name, item_qty, item_price,invoice_id) VALUES (:productname, :qtyname, :pricename,:invoiceid)";
 
-			$invoiceitem_stmt= $pdo->prepare($invoiceitemsql);
-			$invoiceitem_stmt->bindParam(':productname',$productname);
-			$invoiceitem_stmt->bindParam(':qtyname',$qtyname);
-			$invoiceitem_stmt->bindParam(':pricename',$pricename);
-			$invoiceitem_stmt->bindParam(':invoiceid',$invoiceid);
-			$invoiceitem_stmt->execute();
+		$invoiceitem_stmt= $pdo->prepare($invoiceitemsql);
+		$invoiceitem_stmt->bindParam(':productname',$productname);
+		$invoiceitem_stmt->bindParam(':qtyname',$qtyname);
+		$invoiceitem_stmt->bindParam(':pricename',$pricename);
+		$invoiceitem_stmt->bindParam(':invoiceid',$invoiceid);
+		$invoiceitem_stmt->execute();
+	}
 
-			if($invoiceitem_stmt->rowCount()){
+	if($invoiceitem_stmt->rowCount()){
 			header("Location:tableadd.html");
 		}
 		else{
 			echo " Error !";
 		}
-		}
-	}
-}
-	
 
 ?>
+
+<?php  
+	require 'db_connect.php';
+
+	$id=$_POST['id'];
+	$name=$_POST['name'];
+	$category=$_POST['category'];
+
+
+	$sql="UPDATE subcategories SET name=:name, category_id=:category  WHERE id=:id ";
+	
+	$stmt=$pdo->prepare($sql);
+	$stmt->bindParam(':id',$id);
+	$stmt->bindParam(':name',$name);
+	$stmt->bindParam(':category',$category);
+
+	$stmt->execute();
+
+	if($stmt->rowCount())
+	{
+		header("location:subcategory_list");
+	}
+	else
+	{
+		echo "Error!";
+	}
+ ?>
