@@ -6,7 +6,7 @@
 	$month = date('M');
 	$day = date('d');
 	$year = date('Y');
-$invoiceitemsql= "SELECT * from invoice_items   WHERE invoice_id=1";var_dump($invoiceitemsql);die();
+
 	$invoicedate = $today;
 
 	$product = $_POST['product'];
